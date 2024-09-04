@@ -1,5 +1,4 @@
 "use client";
-import { useRouter } from "next/navigation";
 import {
   Select,
   SelectContent,
@@ -8,9 +7,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useState, useEffect } from "react";
+import { NETSUITE_URL, QUICKBOOKS_URL } from "@/lib/constants";
 
 export default function Scripts() {
-  const router = useRouter();
   const [source, setSource] = useState("");
   const [destination, setDestination] = useState("");
 
@@ -23,9 +22,8 @@ export default function Scripts() {
     useState(false);
   const [showValidateReadyHeaderVisible, setShowValidateReadyHeaderVisible] =
     useState(false);
-
   const [loading, setLoading] = useState(false);
-
+  
   useEffect(() => {
     if (source && destination) {
       setShowDataTypes(true);
@@ -44,40 +42,53 @@ export default function Scripts() {
       setTimeout(() => {
         setLoading(false);
         setTimeout(() => setShowValidateReadyTabsVisible(true), 50);
-        sendMessage("getTabUrls");
+        
+        sendMessageToChromeExtension("setLoadingState", {state: true, status: "Navigating to Quickbooks"});
+        setTimeout(() => switchToQuickbooksTab(), 3000);
       }, 3000);
     } else {
       setShowValidateReadyTabsVisible(false);
       setShowValidateReadyTabs(false);
     }
   }, [dataType]);
+  
+  const switchToQuickbooksTab = async () => {
+    const tabs = await sendMessageToChromeExtension("getTabUrls", null);
 
-  const sendMessage = (action: string) => {
-    chrome.runtime.sendMessage(
-      "pajhhcpmldjhoeibhffcilndgabaipip",
-      { action },
-      (response: any) => {
-        if (chrome.runtime.lastError) {
-          console.error(
-            "Error sending message:",
-            chrome.runtime.lastError.message
-          );
-        } else {
-          console.log("Message sent successfully. Response:", response);
+    const quickbooksTabIndex = tabs.findIndex((url: string) =>
+      url.includes(QUICKBOOKS_URL)
+    );
+    
+    if (quickbooksTabIndex > 0) {
+      await sendMessageToChromeExtension("switchTabs", {
+        tabIndex: quickbooksTabIndex,
+      });
+    }
+  }
 
-          if (response.action === "getTabUrls") {
-            if (response.tabUrls && Array.isArray(response.tabUrls)) {
-              const hasXyzCom = response.tabUrls.some((url: string) =>
-                url.includes("netsuite.com")
-              );
-              const hasAbcCom = response.tabUrls.some((url: string) =>
-                url.includes("abc.com")
-              );
+  const sendMessageToChromeExtension = (action: string, payload: any) => {
+    return new Promise((resolve, reject) => {
+      chrome.runtime.sendMessage(
+        "pajhhcpmldjhoeibhffcilndgabaipip",
+        { action, payload },
+        (response: any) => {
+          if (chrome.runtime.lastError) {
+            console.error(
+              "Error sending message:",
+              chrome.runtime.lastError.message
+            );
+          } else {
+            console.log("Message sent successfully. Response:", response);
+
+            if (response.action === "getTabUrls") {
+              if (response.tabUrls && Array.isArray(response.tabUrls)) {
+                resolve(response.tabUrls);
+              }
             }
           }
         }
-      }
-    );
+      );
+    });
   };
 
   return (
