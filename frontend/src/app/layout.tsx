@@ -2,13 +2,10 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import Navbar from '@/components/Navbar'
+import { Suspense } from "react";
+import { Providers } from "./Providers";
 
 const inter = Inter({ subsets: ['latin'] })
-
-export const metadata: Metadata = {
-  title: 'Cadbury',
-  description: '',
-}
 
 export default function RootLayout({
   children,
@@ -18,11 +15,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+      <Providers>
           <Navbar />
           <div className="py-8 max-w-screen-2xl mx-auto">
-              {children}
+              <Suspense>
+                {children}
+              </Suspense>
           </div>
-        </body>
+        </Providers>
+      </body>
     </html>
   )
 }
