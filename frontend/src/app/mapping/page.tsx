@@ -23,7 +23,7 @@ const initialNodes = [
     id: "1",
     type: "textUpdater",
     position: { x: 0, y: 0 },
-    data: { label: "ACCOUNT", source: "Quickbooks" },
+    data: { label: "Full name", source: "Quickbooks" },
   },
   {
     id: "2",
@@ -35,7 +35,7 @@ const initialNodes = [
     id: "3",
     type: "textUpdater",
     position: { x: 0, y: 150 },
-    data: { label: "TYPE", source: "Quickbooks" },
+    data: { label: "Account type", source: "Quickbooks" },
   },
   {
     id: "4",
@@ -47,25 +47,19 @@ const initialNodes = [
     id: "5",
     type: "textUpdater",
     position: { x: 0, y: 300 },
-    data: { label: "CURRENCY", source: "Quickbooks" },
+    data: { label: "Description", source: "Quickbooks" },
   },
   {
     id: "6",
     type: "textUpdater",
     position: { x: 400, y: 300 },
-    data: { label: "Currency", source: "Netsuite" },
+    data: { label: "Description", source: "Netsuite" },
   },
   {
     id: "7",
     type: "textUpdater",
-    position: { x: 0, y: 450 },
-    data: { label: "Description", source: "Quickbooks", disabled: false },
-  },
-  {
-    id: "8",
-    type: "textUpdater",
-    position: { x: 0, y: 600 },
-    data: { label: "Balance", source: "Quickbooks", disabled: false },
+    position: { x: 400, y: 450 },
+    data: { label: "Account Number", source: "Netsuite" },
   },
 ];
 

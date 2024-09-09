@@ -51,11 +51,11 @@ export default function Scripts() {
           switchToQuickbooksTab()
           setTimeout(() => {
             // TODO - ZEESHAN - navigate to GL page and move cursor image here
-            sendMessageToChromeExtension("setLoadingState", {state: true, status: "Exporting GL"});
+            sendMessageToChromeExtension("setLoadingState", {state: true, status: "Exporting Chart of Accounts"});
 
             setTimeout(() => {
               switchToCadburyTab()
-              router.push("/mapping");
+              router.push("/validation");
             }, 3000);
           }, 1000);
         }, 3000);
