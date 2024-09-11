@@ -39,6 +39,17 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     return true;
   });
 
+
+chrome.webNavigation.onHistoryStateUpdated.addListener(function(details) {
+  if (details.url.includes('https://qbo.intuit.com/app/reports')) {
+    chrome.scripting.executeScript({
+      target: {tabId: details.tabId},
+      files: ['qb.js']
+    });
+  }
+});
+
+
 function switchTabs(tabs, index) {
     if (tabs.length <= 1 || !index) {
         console.error("Not enough tabs open or no tab index provided");

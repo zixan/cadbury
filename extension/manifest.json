@@ -3,21 +3,30 @@
     "name": "Cadbury",
     "version": "1.0",
     "description": "The agent that supercharges solutions consultants",
-    "permissions": ["tabs"],
+    "permissions": ["tabs", "scripting", "webNavigation"],
     "content_scripts": [
         {
           "matches": ["*://localhost/*"],
           "js": ["content.js"]
+        },
+        {
+          "matches": ["*://qbo.intuit.com/*"],
+          "js": ["qb.js"],
+          "all_frames": true
         }
     ],
     "background": {
       "service_worker": "background.js"
     },
     "host_permissions": [
-        "*://localhost/*"
+        "*://localhost/*",
+        "*://qbo.intuit.com/*"
     ],
     "externally_connectable": {
-        "matches": ["*://localhost/*"]
+        "matches": [
+            "*://localhost/*",
+            "*://qbo.intuit.com/*"
+        ]
     },
     "web_accessible_resources": [
       {
