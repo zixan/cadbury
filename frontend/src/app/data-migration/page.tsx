@@ -56,7 +56,7 @@ export default function Scripts() {
             setTimeout(() => {
               switchToCadburyTab()
               router.push("/validation");
-            }, 3000);
+            }, 15000);
           }, 1000);
         }, 3000);
 
