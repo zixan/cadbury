@@ -195,18 +195,22 @@ export default function App() {
   const handleApprove = () => {
     sendMessageToChromeExtension("setLoadingState", {
       state: true,
-      status: "Mapping data",
+      status: "Mapping...",
     });
+
     setTimeout(() => {
-      router.push("/validate");
-    }, 3000);
+      sendMessageToChromeExtension("setLoadingState", {
+        state: true,
+        status: "Uploading....",
+      });
+    }, 5000);
   };
 
   return (
     <div className="">
       <div className="flex justify-between items-center">
         <h1 className="text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-4xl">
-          Data migration
+          Data mapping
         </h1>
         <button
           className="px-4 py-2 bg-black text-white rounded hover:bg-gray-700 disabled:opacity-20 disabled:cursor-not-allowed"

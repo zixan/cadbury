@@ -1,3 +1,4 @@
+/*
 function sendMessage(action, tabIndex) {
     chrome.runtime.sendMessage({action, tabIndex}, response => {
       if (chrome.runtime.lastError) {
@@ -22,6 +23,7 @@ function sendMessage(action, tabIndex) {
       }
     });
 }
+*/
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "setLoadingState") {

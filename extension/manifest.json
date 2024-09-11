@@ -3,16 +3,20 @@
     "name": "Cadbury",
     "version": "1.0",
     "description": "The agent that supercharges solutions consultants",
-    "permissions": ["tabs", "scripting", "webNavigation"],
+    "permissions": ["tabs", "scripting", "webNavigation", "storage", "activeTab", "scripting"],
     "content_scripts": [
         {
-          "matches": ["*://localhost/*"],
+          "matches": ["*://localhost/*", "*://*.intuit.com/*", "*://*.bbc.com/*"],
           "js": ["content.js"]
         },
         {
           "matches": ["*://qbo.intuit.com/*"],
           "js": ["qb.js"],
           "all_frames": true
+        },
+        {
+          "matches": ["*://*.intuit.com/*"],
+          "js": ["clean.js"]
         }
     ],
     "background": {
@@ -20,13 +24,18 @@
     },
     "host_permissions": [
         "*://localhost/*",
-        "*://qbo.intuit.com/*"
+        "*://qbo.intuit.com/*",
+        "*://*.intuit.com/*",
+        "*://*.bbc.com/*"
     ],
     "externally_connectable": {
         "matches": [
             "*://localhost/*",
             "*://qbo.intuit.com/*"
         ]
+    },
+    "externally_connectable": {
+        "matches": ["*://localhost/*", "*://*.intuit.com/*", "*://*.bbc.com/*"]
     },
     "web_accessible_resources": [
       {
